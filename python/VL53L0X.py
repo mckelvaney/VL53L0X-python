@@ -22,7 +22,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 from ctypes import CDLL, CFUNCTYPE, POINTER, c_int, c_uint, pointer, c_ubyte, c_uint8, c_uint32
-import smbus2 as smbus
+import pkg_resources
+SMBUS='smbus'
+for dist in pkg_resources.working_set:
+    #print(dist.project_name, dist.version)
+    if dist.project_name == 'smbus':
+        break
+    if dist.project_name == 'smbus2':
+        SMBUS='smbus2'
+        break
+if SMBUS == 'smbus':
+    import smbus
+elif SMBUS == 'smbus2':
+    import smbus2 as smbus
 import site
 
 
@@ -87,6 +99,12 @@ class VL53L0X:
         self._tca9548a_addr = tca9548a_addr
         self._i2c = smbus.SMBus()
         self._dev = None
+        # Resgiter Address
+        self.ADDR_UNIT_ID_HIGH = 0x16 # Serial number high byte
+        self.ADDR_UNIT_ID_LOW = 0x17 # Serial number low byte
+        self.ADDR_I2C_ID_HIGH = 0x18 # Write serial number high byte for I2C address unlock
+        self.ADDR_I2C_ID_LOW = 0x19 # Write serial number low byte for I2C address unlock
+        self.ADDR_I2C_SEC_ADDR = 0x8a # Write new I2C address after unlock
 
     def open(self):
         self._i2c.open(bus=self._i2c_bus)
@@ -184,3 +202,22 @@ class VL53L0X:
         status = _TOF_LIBRARY.VL53L0X_ClearInterruptMask(self._dev, mask)
         if status != 0:
             raise Vl53l0xError('Error clearing VL53L0X interrupt')
+
+    def change_address(self, new_address):
+        if new_address == None:
+            return
+        elif new_address == self.i2c_address:
+            return
+        else:
+            # read value from 0x16,0x17
+            high = self.bus.read_byte_data(self.i2c_address, self.ADDR_UNIT_ID_HIGH)
+            low = self.bus.read_byte_data(self.i2c_address, self.ADDR_UNIT_ID_LOW)
+
+            # write value to 0x18,0x19
+            self.bus.write_byte_data(self.i2c_address, self.ADDR_I2C_ID_HIGH, high)
+            self.bus.write_byte_data(self.i2c_address, self.ADDR_I2C_ID_LOW, low)
+
+            # write new_address to 0x1a
+            self.bus.write_byte_data(self.i2c_address, self.ADDR_I2C_SEC_ADDR, new_address)
+
+            self.i2c_address = new_address
