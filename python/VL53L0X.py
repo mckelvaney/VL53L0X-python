@@ -210,14 +210,14 @@ class VL53L0X:
             return
         else:
             # read value from 0x16,0x17
-            high = self.bus.read_byte_data(self.i2c_address, self.ADDR_UNIT_ID_HIGH)
-            low = self.bus.read_byte_data(self.i2c_address, self.ADDR_UNIT_ID_LOW)
+            high = self._i2c.read_byte_data(self.i2c_address, self.ADDR_UNIT_ID_HIGH)
+            low = self._i2c.read_byte_data(self.i2c_address, self.ADDR_UNIT_ID_LOW)
 
             # write value to 0x18,0x19
-            self.bus.write_byte_data(self.i2c_address, self.ADDR_I2C_ID_HIGH, high)
-            self.bus.write_byte_data(self.i2c_address, self.ADDR_I2C_ID_LOW, low)
+            self._i2c.write_byte_data(self.i2c_address, self.ADDR_I2C_ID_HIGH, high)
+            self._i2c.write_byte_data(self.i2c_address, self.ADDR_I2C_ID_LOW, low)
 
             # write new_address to 0x1a
-            self.bus.write_byte_data(self.i2c_address, self.ADDR_I2C_SEC_ADDR, new_address)
+            self._i2c.write_byte_data(self.i2c_address, self.ADDR_I2C_SEC_ADDR, new_address)
 
             self.i2c_address = new_address
