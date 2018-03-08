@@ -11,8 +11,9 @@ Version 1.0.2:
 - Add python example using TCA9548A Multiplexer support (johnbryanmoore)
 - Add pip install support (grantramsay)
 - Add smbus2 support (grantramsay)
-- **Add smbus/smbus2 support (naisy)**
-- **Add gcc -fPIC flag (naisy)**
+- **Update pip install support python2/3 (naisy)**
+- **Update smbus/smbus2 support (naisy)**
+- **Add gcc -fPIC CFLAGS for build on Ubuntu (naisy)**
 - **Add I2C address change support (naisy)**
 
 Version 1.0.1:
