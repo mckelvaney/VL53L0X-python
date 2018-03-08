@@ -5,22 +5,22 @@ from distutils.command.build_ext import build_ext
 # Found this on stack overflow:
 # https://stackoverflow.com/questions/4529555/building-a-ctypes-based-c-library-with-distutils
 # noinspection PyPep8Naming
-class build_ext(build_ext):
+class build_ext(build_ext, object):
 
     def build_extension(self, ext):
         # noinspection PyAttributeOutsideInit
         self._ctypes = isinstance(ext, CTypesExtension)
-        return super().build_extension(ext)
+        return super(build_ext,self).build_extension(ext)
 
     def get_export_symbols(self, ext):
         if self._ctypes:
             return ext.export_symbols
-        return super().get_export_symbols(ext)
+        return super(build_ext,self).get_export_symbols(ext)
 
     def get_ext_filename(self, ext_name):
         if self._ctypes:
             return ext_name + '.so'
-        return super().get_ext_filename(ext_name)
+        return super(build_ext,self).get_ext_filename(ext_name)
 
 
 class CTypesExtension(Extension):
@@ -53,5 +53,5 @@ VL53L0X sensor for raspberry PI.
       ext_modules=[extension],
       package_dir={'': 'python'},
       py_modules=['VL53L0X'],
-      requires=['smbus2'],
+      requires=['smbus' or 'smbus2'],
       cmdclass={'build_ext': build_ext})
