@@ -1,4 +1,4 @@
-# VL53L0X Python interface on Raspberry Pi
+# VL53L0X Python interface on Raspberry Pi/Jetson TX2
 
 This project provides a simplified python interface on Raspberry Pi to the ST VL53L0X API (ST Microelectronics).
 
@@ -9,6 +9,11 @@ In order to be able to share the i2c bus with other python code that uses the i2
 Version 1.0.2:
 - Add support for TCA9548A I2C Multiplexer. Tested with https://www.adafruit.com/products/2717 breakout. (johnbryanmoore)
 - Add python example using TCA9548A Multiplexer support (johnbryanmoore)
+- Add pip install support (grantramsay)
+- Add smbus2 support (grantramsay)
+- **Add smbus/smbus2 support (naisy)**
+- **Add gcc -fPIC flag (naisy)**
+- **Add I2C address change support (naisy)**
 
 Version 1.0.1:
 - Simplify build process (svanimisetti)
@@ -39,9 +44,9 @@ Notes on using TCA9548A I2C Multiplexer:
 ### Installation
 ```bash
 # Python2
-pip2 install git+https://github.com/grantramsay/VL53L0X_rasp_python.git
+pip2 install git+https://github.com/naisy/VL53L0X_rasp_python.git
 # Python3
-pip3 install git+https://github.com/grantramsay/VL53L0X_rasp_python.git
+pip3 install git+https://github.com/naisy/VL53L0X_rasp_python.git
 ```
 
 ### Compilation
@@ -54,7 +59,7 @@ sudo apt-get install build-essential python-dev
 Then use following commands to clone the repository and compile:
 ```bash
 cd your_git_directory
-git clone https://github.com/johnbryanmoore/VL53L0X_rasp_python.git
+git clone https://github.com/naisy/VL53L0X_rasp_python.git
 cd VL53L0X_rasp_python
 make
 ```

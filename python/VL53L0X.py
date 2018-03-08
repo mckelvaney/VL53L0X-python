@@ -204,6 +204,11 @@ class VL53L0X:
             raise Vl53l0xError('Error clearing VL53L0X interrupt')
 
     def change_address(self, new_address):
+        if self._dev is not None:
+            raise Vl53l0xError('Error changing VL53L0X address')
+
+        self._i2c.open(bus=self._i2c_bus)
+
         if new_address == None:
             return
         elif new_address == self.i2c_address:
@@ -221,3 +226,5 @@ class VL53L0X:
             self._i2c.write_byte_data(self.i2c_address, self.ADDR_I2C_SEC_ADDR, new_address)
 
             self.i2c_address = new_address
+
+        self._i2c.close()
