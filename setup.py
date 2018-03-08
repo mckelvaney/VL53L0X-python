@@ -43,12 +43,12 @@ extension = CTypesExtension(
 
 setup(name='VL53L0X_rasp_python',
       version='1.0.2',
-      description='VL53L0X sensor for raspberry PI',
+      description='VL53L0X sensor for raspberry PI/JetsonTX2',
       # author='?',
       # author_email='?',
-      url='https://github.com/johnbryanmoore/VL53L0X_rasp_python',
+      url='https://github.com/naisy/VL53L0X_rasp_python',
       long_description='''
-VL53L0X sensor for raspberry PI.
+VL53L0X sensor for raspberry PI/JetsonTX2.
 ''',
       ext_modules=[extension],
       package_dir={'': 'python'},
