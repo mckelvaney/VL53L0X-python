@@ -1,4 +1,4 @@
-# VL53L0X Python interface on Raspberry Pi
+# VL53L0X Python interface on Raspberry Pi/Jetson TX2
 
 This project provides a simplified python interface on Raspberry Pi to the ST VL53L0X API (ST Microelectronics).
 
@@ -9,6 +9,12 @@ In order to be able to share the i2c bus with other python code that uses the i2
 Version 1.0.2:
 - Add support for TCA9548A I2C Multiplexer. Tested with https://www.adafruit.com/products/2717 breakout. (johnbryanmoore)
 - Add python example using TCA9548A Multiplexer support (johnbryanmoore)
+- Add pip install support (grantramsay)
+- Add smbus2 support (grantramsay)
+- **Update pip install support python2/3 (naisy)**
+- **Update smbus/smbus2 support (naisy)**
+- **Add gcc -fPIC CFLAGS for build on Ubuntu (naisy)**
+- **Add I2C address change support (naisy)**
 
 Version 1.0.1:
 - Simplify build process (svanimisetti)
@@ -31,13 +37,18 @@ Notes on Multiple sensor support:
 Notes on using TCA9548A I2C Multiplexer:
 - If limited on GPIO's that would be needed to set a new addresses for each sensor, using a TCA9548A I2C Multiplexer is a good option since it allows using up to 8 sensors without using GPIO's.
 - The TCA9548A is also a good option if using multiple boards on the same I2C bus and the total of all the combined I2C pullups would cause the bus not to function. 
-- Theoretically you can connect mutltiple TCA9548A Multiplexers, each with up to 8 sensors as long each TCA9548A has a different address. This has not been tested but should work in theory.
+- Theoretically you can connect multiple TCA9548A Multiplexers, each with up to 8 sensors as long each TCA9548A has a different address. This has not been tested but should work in theory.
 
 (Please note that while the author is an embedded software engineer, this is a first attempt at extending python and the author is by no means a python expert so any improvement suggestions are appreciated).
 
 
 ### Installation
-
+```bash
+# Python2
+pip2 install git+https://github.com/naisy/VL53L0X_rasp_python.git
+# Python3
+pip3 install git+https://github.com/naisy/VL53L0X_rasp_python.git
+```
 
 ### Compilation
 
@@ -49,7 +60,7 @@ sudo apt-get install build-essential python-dev
 Then use following commands to clone the repository and compile:
 ```bash
 cd your_git_directory
-git clone https://github.com/johnbryanmoore/VL53L0X_rasp_python.git
+git clone https://github.com/naisy/VL53L0X_rasp_python.git
 cd VL53L0X_rasp_python
 make
 ```
