@@ -170,9 +170,9 @@ VL53L0X_Dev_t *initialise(uint8_t i2c_address, uint8_t TCA9548A_Device, uint8_t 
             // Address requested not default so set the address.
             // This assumes that the shutdown pin has been controlled
             // externally to this function.
-            // TODO: Why does this function divide the address by 2? To get
-            // the address we want we have to mutiply by 2 in the call so
-            // it gets set right
+            // The VL53L0X API accepts an 8-bit i2c address (7-bits + the
+            // R/W bit) so we must shift our address left one bit (multiply
+            // it by two) to turn the 7-bit (eg 0x29) into 8-bit (0x52).
             Status = VL53L0X_SetDeviceAddress(dev, (i2c_address * 2));
             dev->I2cDevAddr      = i2c_address;
         }
@@ -487,7 +487,7 @@ void stopRanging(VL53L0X_Dev_t *dev)
 
         if(Status == VL53L0X_ERROR_NONE)
         {
-            printf ("Wait Stop to be competed\n");
+            printf ("Wait for stop to be completed\n");
             Status = WaitStopCompleted(dev);
         }
 
